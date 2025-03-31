@@ -101,7 +101,7 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'cscadmin_jkm',
-		'USER': 'cscadmin_admin',
+		'USER': 'cscadmin',
 		'PASSWORD': 'cscadmin@123',
 		'HOST':'localhost',
 		'PORT':'3306',
