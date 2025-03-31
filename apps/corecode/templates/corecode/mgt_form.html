@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+  {{title}}
+{% endblock title %}
+
+
+
+{% block title-side %}{% endblock title-side %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag}}
+            {{ field | add_class:"form-control" |add_error_class:"is-invalid" | attr:"required"}}
+            {{field.help_text}}
+            {{field.errors}}
+          </div>
+          {% endfor %}
+        </div>
+
+
+        <input type="submit" value="Save" class="w-25 btn btn-primary">
+
+      </form>
+    </div>
+    <script>
+      const input = "{{object.time}}";
+      const [start, end] = input.split(" - ");
+
+      function convertTo24Hour(timeStr) {
+        const [time, meridian] = timeStr.split(":").map((val, idx, arr) =>
+            idx === arr.length - 1 ? val.match(/(AM|PM)/)[0] : val
+        );
+        const [hour, minute] = timeStr.replace(/(AM|PM)/, "").split(":").map(Number);
+
+        // Convert to 24-hour format
+        const hours = meridian === "PM" && hour < 12 ? hour + 12 : hour % 12;
+        return `${hours.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+    }
+
+    document.getElementById("id_start_time").value = convertTo24Hour(start);
+    document.getElementById("id_end_time").value = convertTo24Hour(end);
+    </script>
+  </div>
+
+{% endblock content %}
+
+
